@@ -66,7 +66,6 @@ var ajax = (function() {
 })();
 
 
-console.log(animeDataObj);
 
 
 
