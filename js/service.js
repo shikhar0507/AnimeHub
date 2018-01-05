@@ -12,18 +12,19 @@ var checkString = function(str){
     let whiteSpaceCount =  str.split(" ").length -1;
     // console.log(str.indexOf(' '))
     for(var i=0;i < whiteSpaceCount;i++) {
-       var newStr =  str.replace(" ","%20");
-        console.log(newStr);
+       var newStr =  str.replace(/ /g,"-");
+       
+       
     }        
-    return str;
+    return newStr;
 };
 
 submitEl.addEventListener("click",function(){
 
    var query = searchEl.value;
-   checkString(query);
+   console.log(checkString(query))
    var xhr = new XMLHttpRequest();
-   xhr.open('GET',apiAnime+query);
+   xhr.open('GET',apiAnime+checkString(query));
    xhr.send(null);
    ajax.send(xhr);
 });
@@ -63,9 +64,6 @@ var ajax = (function() {
        },
     }
 })();
-
-
-
 
 
 console.log(animeDataObj);
