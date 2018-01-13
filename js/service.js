@@ -1,74 +1,65 @@
-/* This is where the individual services for GET/POST Requests will be handled*/
+const url = "https://kitsu.io/api/edge/anime";
 
-const api = "https://kitsu.io/api/edge/anime?";
-const apiAnime = api+"filter[slug]=";
+var anime = (function () { //XHR   
 
-var searchEl = document.querySelector(".queryText.search");
-var submitEl = document.querySelector(".getText");
-
-var animeDataObj = {};
-
-var checkString = function(str){
-    let whiteSpaceCount =  str.split(" ").length -1;
-    // console.log(str.indexOf(' '))
-    for(var i=0;i < whiteSpaceCount;i++) {
-       var newStr =  str.replace(/ /g,"-");
-       
-       
-    }        
-    return newStr;
-};
-
-submitEl.addEventListener("click",function(){
-
-   var query = searchEl.value;
-   console.log(checkString(query))
-   var xhr = new XMLHttpRequest();
-   xhr.open('GET',apiAnime+checkString(query));
-   xhr.send(null);
-   ajax.send(xhr);
-});
-
-
-
-
-var ajax = (function() {
-   
     return {
-       send : function(xhr){
+        get: function (methodType, url) {
+            var promise = new Promise(function (resolve, reject) {
 
-            xhr.onreadystatechange = function(){
-                const DONE =4;
-                const OK = 200;
-                if(xhr.readyState === DONE) {
-                    if (xhr.status === OK) {
-                       var response =  xhr.responseText;
-                       ajax.parseData(response);
+                var xhr = new XMLHttpRequest();
+
+                xhr.open(methodType, url, true);
+                xhr.send(null);
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            resolve(JSON.parse(xhr.responseText));
+                        } else {
+                            reject(xhr.status);
+                        }
+                    } else {
+                        console.log("process continuing"); //if readyState != 4
                     }
-                    else {
-                        alert("error");
-                    }
-                }
-            };
+                };
 
-       },
+            });
+            return promise;
 
-       parseData : function(response){
-            var apiData = JSON.parse(response);
-            if (apiData.meta.count == 0) {
-                console.log(0);
-            }
-            else {
-                 animeDataObj.data = apiData.data[0];          
-            }
-       },
+        }
     }
+
 })();
 
 
 
+function _(idName) { //shorthand for getting elements
+
+    return document.querySelector(idName);
+
+}
+
+function makeEl(type, text, prop, child) {
+    let el = document.createElement(type);
+    let textContent = document.createTextNode(text);
+    el.appendChild(textContent);
+
+    if (!child) {
+        return el;
+
+    } else {
+        let children = document.createElement(child);
+        el.appendChild(children);
+    }
+    Object.keys(prop).forEach(function (pr) {
+        el[pr] = prop[pr]
 
 
+    })
+    return el;
+}
 
+
+export {anime,_,makeEl};
 
 
