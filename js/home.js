@@ -12,6 +12,9 @@ document.querySelector(".getText").addEventListener("click", function () {
     if (rawQuery.indexOf(" ") >= 0) {
         query = rawQuery.replace(/\s/g, "-");
     }
+    else {
+        query = rawQuery;
+    }
     anime.get("GET", url + "?filter[slug]=" + query).then(function success(data) {
         
         console.log(data.data[0].attributes.canonicalTitle);
