@@ -9,8 +9,8 @@ The portal will be made without any JS Framework
 
 
 <h2>Update</h2>
-<p>string validation has been added for anime titles with white spaces in it</p>
-
+<li>trending animes can be sorted according to ratings</li>
+<li>routing functionality needs to be added</li>
 
 
 
