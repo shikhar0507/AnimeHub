@@ -32,34 +32,15 @@ var anime = (function () { //XHR
 })();
 
 
-
 function _(idName) { //shorthand for getting elements
 
     return document.querySelector(idName);
 
 }
 
-function makeEl(type, text, prop, child) {
-    let el = document.createElement(type);
-    let textContent = document.createTextNode(text);
-    el.appendChild(textContent);
-
-    if (!child) {
-        return el;
-
-    } else {
-        let children = document.createElement(child);
-        el.appendChild(children);
-    }
-    Object.keys(prop).forEach(function (pr) {
-        el[pr] = prop[pr]
 
 
-    })
-    return el;
-}
 
-
-export {anime,_,makeEl};
+export {url,anime,_};
 
 
