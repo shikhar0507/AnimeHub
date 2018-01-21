@@ -4,19 +4,28 @@ import {
     _
 } from './service.js';
 
+let query;
+var beautifyQuery = function (rawStr) {
+    rawStr = rawStr.toLowerCase();
+    query = rawStr.replace(/[\s]/g, '-');
+    const regex = /[:]/g;
+    if (regex.test(query)) {
+        query = query.replace(regex, '');
+
+    }
+    return query;
+}
+
 //search bar
 
 document.querySelector(".getText").addEventListener("click", function () {
     var rawQuery = document.querySelector(".queryText").value;
-    let query;
-    if (rawQuery.indexOf(" ") >= 0) {
-        query = rawQuery.replace(/\s/g, "-");
-    }
-    else {
-        query = rawQuery;
-    }
+
+    beautifyQuery(rawQuery);
+
     anime.get("GET", url + "?filter[slug]=" + query).then(function success(data) {
-        
+
+
         console.log(data.data[0].attributes.canonicalTitle);
 
     }, function error(err) {
@@ -29,50 +38,79 @@ document.querySelector(".getText").addEventListener("click", function () {
 
 //trending anime
 anime.get("GET", "https://kitsu.io/api/edge/trending/anime").then(function success(anime) {
+    let sortOrder = 'trending';
+    let sortObj = {};
+    var arr = [];;
+    class renderTrendingAnime {
+        constructor() {
+            this.data = anime.data;
+        }
+        render() {
 
-let sortObj = {};
+            if (sortOrder === 'asc' || sortOrder === 'dsc') {
 
-for(var i =0;i< anime.data.length;i++) {
-    _(".trendCont").innerHTML += "<div class='trend"+i+"'><h3>"+anime.data[i].attributes.canonicalTitle+"</h3><p>"+anime.data[i].attributes.synopsis+"</p></div>";
+                return `<div class="trending">
+                ${this.sort().join('')}
+                </div>`
+            } else {
 
-    sortObj[anime.data[i].attributes.canonicalTitle] = anime.data[i].attributes.averageRating;
-}
+                return `<div class="trending">
+                ${this.modify().join('')}
+                </div>`
+            }
 
-//sort ascending
+        }
 
-let sortedArrayAsc = Object.keys(sortObj).sort(function(a,b) {
-    return sortObj[a] - sortObj[b];
-})
+        modify() {
 
-let sortedArrayDsc = Object.keys(sortObj).sort(function(a,b) {
-    return sortObj[b] - sortObj[a];
-})
+            this.name = this.data.forEach(function (item) {
 
-_(".sortAsc").addEventListener("click",function(e){
-    let sortData;
-    for(var i=0;i<sortedArrayAsc.length;i++) 
-{
-    sortData += "<div class='trend'><h3>"+sortedArrayAsc[i]+"</h3></div>";
+                arr.push(item);
 
-}
-_(".trendCont").innerHTML = sortData.replace("undefined","");
- 
-})
-
-//sort descending
-
-_(".sortDsc").addEventListener("click",function(e){
-    let sortData;
-    for(var i=0;i<sortedArrayDsc.length;i++) 
-{
-    sortData += "<div class='trend'><h3>"+sortedArrayDsc[i]+"</h3></div>";
-
-}
-_(".trendCont").innerHTML = sortData.replace("undefined","");
+                sortObj[item.attributes.canonicalTitle] = item.attributes.averageRating;
+            });
+            return arr.map(function (val) {
+                return `<h3>${val.attributes.canonicalTitle}</h3>`
+            })
 
 
-});
-
-}, function error() {})
+        }
 
 
+        sort() {
+
+
+            let sortedArray = [];
+            sortedArray.push(Object.keys(sortObj).sort(function (a, b) {
+                if (sortOrder === 'asc') {
+                    return sortObj[a] - sortObj[b];
+                } else {                                                    //descending
+                    return sortObj[b] - sortObj[a];
+                }
+            }));
+
+
+            return sortedArray[0].map(function (val) {
+                return `<h3>${val}</h3>`
+            })
+        }
+
+    }
+
+
+    var trendingAnime = new renderTrendingAnime(anime);
+
+    _("#comp").innerHTML = trendingAnime.render();
+
+    document.addEventListener("click", function (e) {
+       
+        if (e.target.classList.contains('sortAsc')) {
+            sortOrder = 'asc';
+        } else if (e.target.classList.contains('sortDsc')) {
+            sortOrder = 'dsc';
+        }
+        _("#comp").innerHTML = trendingAnime.render();
+
+    });
+
+}, function error() {});

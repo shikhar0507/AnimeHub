@@ -33,7 +33,6 @@ var anime = (function () { //XHR
 
 
 function _(idName) { //shorthand for getting elements
-
     return document.querySelector(idName);
 
 }
