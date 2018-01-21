@@ -4,4 +4,8 @@
 .rating {
   text-align: right; }
 
+.anime-cont {
+  width: 20%;
+  display: inline-grid; }
+
 /*# sourceMappingURL=home.css.map */
