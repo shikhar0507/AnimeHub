@@ -1,7 +1,9 @@
+
 import {
     url,
     anime,
-    _
+    _,
+    output
 } from './service.js';
 
 let query;
@@ -11,7 +13,7 @@ var beautifyQuery = function (rawStr) {
     const regex = /[:]/g;
     if (regex.test(query)) {
         query = query.replace(regex, '');
-
+        
     }
     return query;
 }
@@ -20,28 +22,30 @@ var beautifyQuery = function (rawStr) {
 
 document.querySelector(".getText").addEventListener("click", function () {
     var rawQuery = document.querySelector(".queryText").value;
-
+    
     beautifyQuery(rawQuery);
-
-    anime.get("GET", url + "?filter[slug]=" + query).then(function success(data) {
-
-
+    
+    anime.get("GET", url + "?filter[slug]=" + query,true).then(function success(data) {
+        
+        
         console.log(data.data[0].attributes);
-
+        
     }, function error(err) {
         console.log(err);
-
+        
     })
-
+    
 });
 
 
 //trending anime
-anime.get("GET", "https://kitsu.io/api/edge/trending/anime?limit=5").then(function success(anime) {
+var arr = [];
+var trendingAnime;
+var isSort = false;
+anime.get("GET", "https://kitsu.io/api/edge/trending/anime?limit=5",true).then(function success(anime) {
     
     let sortOrder = 'trending';
     let sortObj = {};
-    var arr = [];
     
     class renderTrendingAnime {
         constructor() {
@@ -71,7 +75,7 @@ anime.get("GET", "https://kitsu.io/api/edge/trending/anime?limit=5").then(functi
                 
                 arr.push(item);
                 
-                sortObj[item.attributes.canonicalTitle] = item.attributes.averageRating;
+                sortObj[item.attributes.slug] = item.attributes.averageRating;                
             });
             return arr.map(function (val) {
                 
@@ -86,42 +90,10 @@ anime.get("GET", "https://kitsu.io/api/edge/trending/anime?limit=5").then(functi
                     
                     return synopsis.substr(0,tempArr[1]);
                     
-                }
-                
-                // let categories = function categories(){
-                    
-                // }
-                getCategories(val);
-                
-                return trendingAnime.component(val,synopsis);
-            })
-            
-            
+                }      
+                return trendingAnime.component(val,synopsis,false);
+            })    
         }
-        
-        
-        component(val,synopsis) {
-            //   console.log(val)
-            
-            return `<div class='anime-cont'><div class='animeImg'>
-            <img src='${val.attributes.posterImage.small}'>
-            <div class='overlay'>
-            <div class='categories'>
-            ${val.relationships.categories.link}    
-            </div>
-            </div>
-            </div>
-            <div class='animeInfo'>
-            <div class='animeTitle'>
-            ${val.attributes.canonicalTitle}
-            </div>
-            <div class='animeSynopsis'>
-            ${synopsis()}
-            </div>
-            </div>
-            </div>`
-        }
-        
         
         sort() {
             
@@ -131,21 +103,43 @@ anime.get("GET", "https://kitsu.io/api/edge/trending/anime?limit=5").then(functi
                 if (sortOrder === 'asc') {
                     return sortObj[a] - sortObj[b];
                 } else {                                                    //descending
-                    return sortObj[b] - sortObj[a];
-                }
-            }));
+                        return sortObj[b] - sortObj[a];
+                    }
+                }));
+    
+                
+                return sortedArray[0].map(function (animeTitle) {
+                    sortedTrendingAnimeCall(animeTitle)
+                });
+            }        
             
             
-            return sortedArray[0].map(function (val) {
-                return `<h3>${val}</h3>`
-            })
-        }
-        
+            component(val,synopsis) {            
+                
+                return `<div class='anime-cont' id=${val.attributes.slug}>
+                <div class='animeImg'>
+                <img src='${val.attributes.posterImage.small}'>
+                <div class='overlay'>
+                <div class='categories'>
+                </div>
+                </div>
+                </div>
+                <div class='animeInfo'>
+                <div class='animeTitle'>
+                ${val.attributes.canonicalTitle}
+                </div>
+                <div class='animeSynopsis'>
+                </div>
+                </div>
+                </div>`
+                
+                
+            
+            getCategory(val)
+
+}   
     }
-    
-    
-    
-    var trendingAnime = new renderTrendingAnime(anime);
+    trendingAnime = new renderTrendingAnime(anime);
     
     _("#comp").innerHTML = trendingAnime.render();
     
@@ -160,16 +154,77 @@ anime.get("GET", "https://kitsu.io/api/edge/trending/anime?limit=5").then(functi
             _("#comp").innerHTML = trendingAnime.render();
         }
         
+        
     });
 }, function error() {});
 
+function sortedTrendingAnimeCall(animeTitle) {
+    var xyz = [];
+    anime.get("GET","https://kitsu.io/api/edge/anime?filter[slug]="+animeTitle).then(function success(sortedData){
 
-function getCategories (val) {
-    console.log(val.relationships.categories.links.related)
-    anime.get("GET","https://kitsu.io/api/edge"+val.relationships.categories.links.related).then(function success(categories){
-        // this.categories = categories;
-        console.log(categories)
+        xyz.push(sortedData.data[0]);
         
-    },function error(){});
+    },function err(){});
+setTimeout(function() {
+    component(xyz)        
+},2000);
+}
+
+function component(xyz) {
     
+    _(".trending").innerHTML += `<div class='anime-cont' id=${xyz[0].attributes.slug}>
+    <div class='animeImg'>
+    <img src='${xyz[0].attributes.posterImage.small}'>
+    <div class='overlay'>
+    <div class='categories'>
+    ${getCategory(xyz[0].attributes.slug)}
+    </div>
+    </div>
+    </div>
+    <div class='animeInfo'>
+    <div class='animeTitle'>
+    ${xyz[0].attributes.canonicalTitle}
+    </div>
+    <div class='animeSynopsis'>
+    </div>
+    </div>
+    </div>`
+}
+
+
+
+
+var categoryData;
+
+function getCategory(val){  
+      
+    let targetEl;
+    if(typeof val === 'object') {
+    targetEl = val.attributes.slug;
+    }
+    else if (typeof val === 'string') {
+        targetEl = val;
+    }
+console.log(targetEl);
+
+    setTimeout(function(){
+
+        _("#"+targetEl+">.animeImg").addEventListener("mouseenter",function(e){
+         anime.get("GET","https://kitsu.io/api/edge/anime?fields[categories]=title&filter[slug]="+targetEl+"&include=categories").then(function success(res){
+         categoryData = res.included.map(function(s) {
+                
+            return s.attributes.title;
+            
+        });
+        _("#"+targetEl+" .categories").innerHTML = categoryData;
+        },function err(){});
+        
+        
+    });
+    
+    _("#"+targetEl+">.animeImg").addEventListener("mouseleave",function(e){
+        _("#"+targetEl+" .categories").innerHTML = '';                                   
+    });
+
+},1000);
 }
