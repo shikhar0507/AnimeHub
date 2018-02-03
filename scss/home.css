@@ -4,8 +4,65 @@
 .rating {
   text-align: right; }
 
+  #comp {
+    width: 100%;
+  }
 .anime-cont {
   width: 20%;
-  display: inline-grid; }
+  display: inline-grid; 
+  
+}
+.animeImg > img {
+  width:90%;
+}
 
+.animeInfo {
+  padding: 20px 20px 10px 10px;
+}
+
+.animeImg {
+  position: relative;
+  width: 100%;
+}
+.poster {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 90%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: rgba(221, 78, 78, 0.603);
+}
+.animeImg:hover .overlay {
+  opacity: 1;
+}
 /*# sourceMappingURL=home.css.map */
+.overlay .categories {
+  text-align: center;
+  top: 50%;
+  width: 100%;
+  color: white;
+  position: absolute;
+}
+.category-inline {
+  display: inline-block;
+  padding-bottom: 10px;
+}
+.categoryType {
+  background-color: white;
+  color: black;
+  font-size: 12px;
+  font-family: 'Open Sans', sans-serif;
+  padding: 10px 10px 10px 10px;
+  border-radius: 5px;
+}
+
