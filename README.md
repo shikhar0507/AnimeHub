@@ -9,8 +9,8 @@ The portal will be made without any JS Framework
 
 
 <h2>Update</h2>
-<li>trending animes can be sorted according to ratings</li>
-<li>routing functionality needs to be added</li>
+<li>UI components for front page anime trends completed</li>
+<li>Geolocation feature will be added</li>
 
 
 
