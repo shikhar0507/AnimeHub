@@ -204,8 +204,8 @@ function component(xyz) {
 
 var categoryData;
 
+var globalCategory;
 function getCategory(val,containerClass){  
-      
     let targetEl;
     if(typeof val === 'object') {
     targetEl = val.attributes.slug;
@@ -220,15 +220,18 @@ function getCategory(val,containerClass){
             service.anime.get("GET","https://kitsu.io/api/edge/anime?fields[categories]=title&filter[slug]="+targetEl+"&include=categories").then(function success(res){
                 categoryData = res.included.map(function(s) {
 
-            return s.attributes.title;
+                return s.attributes.title;
             
         });
         categoryData = categoryData.slice(0,3);   //limit categories to 3
-            categoryData.map(function(category){ 
-                service._("."+containerClass+"> #"+targetEl+" .categories").innerHTML += " <span class='category-inline'><div class='categoryType'> " + category + " " + " </div></span>";
-        })            
+         categoryData.map(function(category){ 
+               globalCategory += category; 
+            service._("."+containerClass+"> #"+targetEl+" .categories").innerHTML += " <span class='category-inline'><div class='categoryType'> " + category + " " + " </div></span>";
+        }) 
+                       
         },function err(){});
         
+
         
     });
     
@@ -237,7 +240,9 @@ function getCategory(val,containerClass){
     });
 
 },0);
+
 }
+
 
 var DOMobserver;
 
@@ -272,11 +277,8 @@ var location;
 
       callAnimeType("https://kitsu.io/api/edge/trending/anime?limit=5","#comp","trending");
    
-        callAnimeType("https://kitsu.io/api/edge/anime?sort=popularityRank","#pop","popular");
+      callAnimeType("https://kitsu.io/api/edge/anime?sort=popularityRank","#pop","popular");
 
 
-// Object.keys(animeUrls).forEach(function(combo){
-    // console.log(animeUrls[combo],combo);
-// })
 
 

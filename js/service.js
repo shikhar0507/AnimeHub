@@ -38,6 +38,39 @@ function _(idName) { //shorthand for getting elements
 }
 
 
+//Anime mood suggestion
+
+
+navigator.geolocation.getCurrentPosition(getWeather,getPositionError);
+
+
+function getWeather(position) {
+    var mood = [{"haze":"horror"}];
+    
+
+    anime.get("GET","https://api.openweathermap.org/data/2.5/weather?lat="+position.coords.latitude+"&lon="+position.coords.longitude+"&APPID=738818b9876673c608786a5055be1371").then(function success (forecast){
+        
+        forecast.weather.map(function(weatherType){
+                var weather = weatherType.main.toLowerCase();
+                
+                mood.map(function(moodCategory){                                      
+                //    if( moodCategory[weather] = getCategory()) {;
+                //         console.log("watch devil man cry baby");
+                        
+                // }
+                });          
+        })          
+
+    },function error(err){});
+
+}
+
+function getPositionError(){
+    return;
+}
+
+
+
 
 
 export {url,anime,_};
