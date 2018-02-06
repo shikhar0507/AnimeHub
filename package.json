@@ -1,0 +1,19 @@
+{
+  "name": "animecurator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shikhar0507/AnimeHub.git"
+  },
+  "author": "shikhar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shikhar0507/AnimeHub/issues"
+  },
+  "homepage": "https://github.com/shikhar0507/AnimeHub#readme"
+}
