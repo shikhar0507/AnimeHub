@@ -1,4 +1,3 @@
-
 import * as service from './service.js';
 
 
@@ -9,7 +8,7 @@ var beautifyQuery = function (rawStr) {
     const regex = /[:]/g;
     if (regex.test(query)) {
         query = query.replace(regex, '');
-        
+
     }
     return query;
 }
@@ -18,19 +17,19 @@ var beautifyQuery = function (rawStr) {
 
 document.querySelector(".getText").addEventListener("click", function () {
     var rawQuery = document.querySelector(".queryText").value;
-    
+
     beautifyQuery(rawQuery);
-    
-    service.anime.get("GET", url + "?filter[slug]=" + query,true).then(function success(data) {
-        
-        
+
+    service.anime.get("GET", url + "?filter[slug]=" + query, true).then(function success(data) {
+
+
         console.log(data.data[0].attributes);
-        
+
     }, function error(err) {
         console.log(err);
-        
+
     })
-    
+
 });
 
 
@@ -38,93 +37,100 @@ document.querySelector(".getText").addEventListener("click", function () {
 var trendingAnime;
 var isSort = false;
 
-var callAnimeType = function(animeDataType,whereToInsert,containerClass){
+var callAnimeType = function (animeDataType, whereToInsert, containerClass) {
 
 
-service.anime.get("GET", animeDataType).then(function success(anime) {
-    
-    let sortOrder = 'trending';
-    let sortObj = {};
-    var arr = [];
-    
-    class renderTrendingAnime {
-        constructor() {
-            this.data = anime.data;
-        }
-        render() {
-            
-            if (sortOrder === 'asc' || sortOrder === 'dsc') {
+    service.anime.get("GET", animeDataType).then(function success(anime) {
+
+
+        let sortOrder = 'trending';
+        let sortObj = {};
+        var arr = [];
+        var limitData =[];
+        class renderTrendingAnime {
+            constructor() {
                 
-                return `<div class="${containerClass}">
+                for(var i=0;i<5;i++) {
+                limitData.push(anime.data[i]);
+                }
+                
+
+                
+            }
+            render() {
+
+                if (sortOrder === 'asc' || sortOrder === 'dsc') {
+
+                    return `<div class="${containerClass}">
                 
                 
                 ${this.sort().join('')}
                 </div>`
-            } else {
-                
-                return `<div class="${containerClass}">
+                } else {
+
+                    return `<div class="${containerClass}">
                 ${this.modify().join('')}
                 </div>`
+                }
+
             }
-            
-        }
-        
-        modify() {
-            
-            this.data.forEach(function (item) {
-                
-                arr.push(item);
-                
-                sortObj[item.attributes.slug] = item.attributes.averageRating;          // for sorting into ascending or descending       
-            });
-            return arr.map(function (val) {
-                
-                //shorten synopsis
-                
-                let synopsis = function synopsis(){
-                    let synopsis = val.attributes.synopsis;
-                    let tempArr =[];
-                    for(var i=0;i<synopsis.length;i++) {
-                        if(synopsis[i] === '.') tempArr.push(i+1);
+
+            modify() {
+
+                limitData.forEach(function (item) {
+
+                    arr.push(item);
+
+                    sortObj[item.attributes.slug] = item.attributes.averageRating; // for sorting into ascending or descending       
+                });
+                return arr.map(function (val) {
+
+                    //shorten synopsis
+
+                    let synopsis = function synopsis() {
+                        let synopsis = val.attributes.synopsis;
+                        let tempArr = [];
+                        for (var i = 0; i < synopsis.length; i++) {
+                            if (synopsis[i] === '.') tempArr.push(i + 1);
+                        }
+
+                        return synopsis.substr(0, tempArr[1]);
+
                     }
-                    
-                    return synopsis.substr(0,tempArr[1]);
-                    
-                }      
 
 
-                return  trendingAnime.component(val,synopsis);
-            })    
-        }
-        
-        sort() {
-            
-            
-            let sortedArray = [];
-            sortedArray.push(Object.keys(sortObj).sort(function (a, b) {
-                if (sortOrder === 'asc') {
-                    return sortObj[a] - sortObj[b];
-                } else {                                                    //descending
+                    return trendingAnime.component(val, synopsis, containerClass);
+                })
+            }
+
+            sort() {
+
+
+                let sortedArray = [];
+                sortedArray.push(Object.keys(sortObj).sort(function (a, b) {
+                    if (sortOrder === 'asc') {
+                        return sortObj[a] - sortObj[b];
+                    } else { //descending
                         return sortObj[b] - sortObj[a];
                     }
                 }));
-    
-                
+
+
                 return sortedArray[0].map(function (animeTitle) {
                     sortedTrendingAnimeCall(animeTitle)
                 });
-            }        
-            
-            
-            component(val,synopsis) {            
-                    
-            getCategory(val,containerClass);
-                
-                    return `<div class='anime-cont' id=${val.attributes.slug}>
-                    <div class='animeImg'>
-                    <img src='${val.attributes.posterImage.small}' class='poster'>
-                    <div class='overlay'>
-                    <div class='categories'>
+            }
+
+
+            component(val, synopsis, containerClass) {
+
+                getCategory(val, containerClass);
+
+                return `<div class='anime-cont' id=${val.attributes.slug}>
+                <div class='animeImg'>
+                <img src='${val.attributes.posterImage.small}' class='poster'>
+                <div class='overlay'>
+                <div class='categories'>
                 ${getCategory(val)}
                 </div>
                 </div>
@@ -137,31 +143,31 @@ service.anime.get("GET", animeDataType).then(function success(anime) {
                 </div>
                 </div>
                 </div>`
-                
-                
-                
 
-    }   
+
+
+
+            }
         }
 
 
-    trendingAnime = new renderTrendingAnime(anime);
+        trendingAnime = new renderTrendingAnime(anime);
         service._(whereToInsert).innerHTML = trendingAnime.render();
-    
-    document.addEventListener("click", function (e) {
-        
-        if (e.target.classList.contains('sortAsc')) {
-            sortOrder = 'asc';
-            service._(whereToInsert).innerHTML = trendingAnime.render();
-            
-        } else if (e.target.classList.contains('sortDsc')) {
-            sortOrder = 'dsc';
-            service._(whereToInsert).innerHTML = trendingAnime.render();
-        }
-        
-        
-    });
-}, function error() {});
+
+        document.addEventListener("click", function (e) {
+
+            if (e.target.classList.contains('sortAsc')) {
+                sortOrder = 'asc';
+                service._(whereToInsert).innerHTML = trendingAnime.render();
+
+            } else if (e.target.classList.contains('sortDsc')) {
+                sortOrder = 'dsc';
+                service._(whereToInsert).innerHTML = trendingAnime.render();
+            }
+
+
+        });
+    }, function error() {});
 }
 
 
@@ -170,18 +176,18 @@ service.anime.get("GET", animeDataType).then(function success(anime) {
 
 function sortedTrendingAnimeCall(animeTitle) {
     var xyz = [];
-    service.anime.get("GET","https://kitsu.io/api/edge/anime?filter[slug]="+animeTitle).then(function success(sortedData){
+    service.anime.get("GET", "https://kitsu.io/api/edge/anime?filter[slug]=" + animeTitle).then(function success(sortedData) {
 
         xyz.push(sortedData.data[0]);
-        
-    },function err(){});
-setTimeout(function() {
-    component(xyz)        
-},1000);
+
+    }, function err() {});
+    setTimeout(function () {
+        component(xyz)
+    }, 1000);
 }
 
 function component(xyz) {
-    
+
     service._(".trending").innerHTML += `<div class='anime-cont' id=${xyz[0].attributes.slug}>
     <div class='animeImg'>
     <img src='${xyz[0].attributes.posterImage.small}' class='poster'>
@@ -202,83 +208,74 @@ function component(xyz) {
 }
 
 
-var categoryData;
 
-var globalCategory;
-function getCategory(val,containerClass){  
-    let targetEl;
-    if(typeof val === 'object') {
-    targetEl = val.attributes.slug;
+function getCategory(val, containerClass) {
+
+    let slug;
+    if (typeof val === 'object') {
+        slug = val.attributes.slug;
+    } else if (typeof val === 'string') {
+        slug = val;
     }
-    else if (typeof val === 'string') {
-        targetEl = val;
-    }
-    setTimeout(function(){
+  
+    service.anime.get("GET", "https://kitsu.io/api/edge/anime?fields[categories]=title&filter[slug]=" + slug + "&include=categories").then(function success(res) {
+        
 
-        service._("."+containerClass+">#"+targetEl+">.animeImg").addEventListener("mouseenter",function(e){
-            service._("."+containerClass+"> #"+targetEl+" .categories").innerHTML = ''
-            service.anime.get("GET","https://kitsu.io/api/edge/anime?fields[categories]=title&filter[slug]="+targetEl+"&include=categories").then(function success(res){
-                categoryData = res.included.map(function(s) {
+        
+        service._("."+containerClass + ">#" + slug + ">.animeImg").addEventListener("mouseenter", function (e) {
 
-                return s.attributes.title;
+            
+            service._("."+containerClass + "> #" + slug + " .categories").innerHTML = '';
+            
+            for (var x = 0; x < 3; x++) {
+                service._("."+containerClass + "> #" + slug + " .categories").innerHTML += " <span class='category-inline'><div class='categoryType'> " +res.included[x].attributes.title
+                + " " + " </div></span>";
+            }
             
         });
-        categoryData = categoryData.slice(0,3);   //limit categories to 3
-         categoryData.map(function(category){ 
-               globalCategory += category; 
-            service._("."+containerClass+"> #"+targetEl+" .categories").innerHTML += " <span class='category-inline'><div class='categoryType'> " + category + " " + " </div></span>";
-        }) 
-                       
-        },function err(){});
         
+        service._("."+containerClass + "> #" + slug + ">.animeImg").addEventListener("mouseleave", function (e) {
+            service._("."+containerClass + "> #" + slug + " .categories").innerHTML = '';
+        });
+    }, function err() {});
 
-        
-    });
-    
-    service._("."+containerClass+"> #"+targetEl+">.animeImg").addEventListener("mouseleave",function(e){
-        service._("."+containerClass+"> #"+targetEl+" .categories").innerHTML = '';                                   
-    });
 
-},0);
 
 }
 
 
-var DOMobserver;
-
-var transition = function (mutation) {
-    console.log(mutation)
-    for(var i=0; i < mutation.length;i++) {        
-        for(var j =0; j <mutation[i].addedNodes.length; j++) {
-            var node = mutation[i].addedNodes[j];         
-            console.log(node.nodeType)   
-            if ((node.nodeType === 1)){
-
-                DOMobserver.disconnect();
-                return;
-            }
-        }
-    }
-    
-}
-
-DOMobserver = new MutationObserver(transition);
-var parent = service._("#pop");
-DOMobserver.observe(parent,{
-    childList:true,
-    subtree:true
-})
-
-
-var animeUrls = {"#comp" :"https://kitsu.io/api/edge/trending/anime?limit=5","#pop":"https://kitsu.io/api/edge/anime?sort=popularityRank"};
-var location;
 
 
 
-      callAnimeType("https://kitsu.io/api/edge/trending/anime?limit=5","#comp","trending");
-   
-      callAnimeType("https://kitsu.io/api/edge/anime?sort=popularityRank","#pop","popular");
+// var DOMobserver;
+
+// var transition = function (mutation) {
+//     console.log(mutation)
+//     for (var i = 0; i < mutation.length; i++) {
+//         for (var j = 0; j < mutation[i].addedNodes.length; j++) {
+//             var node = mutation[i].addedNodes[j];
+//             console.log(node.nodeType)
+//             if ((node.nodeType === 1)) {
+
+//                 DOMobserver.disconnect();
+//                 return;
+//             }
+//         }
+//     }
+
+// }
+
+// DOMobserver = new MutationObserver(transition);
+// var parent = service._("#popular");
+// DOMobserver.observe(parent, {
+//     childList: true,
+//     subtree: true
+// })
 
 
 
 
+
+callAnimeType("https://kitsu.io/api/edge/trending/anime?limit=5", "#trending", "trending");
+
+callAnimeType("https://kitsu.io/api/edge/anime?sort=popularityRank","#popular","popular");

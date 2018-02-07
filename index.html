@@ -11,6 +11,7 @@
     
         <!-- css -->
         <link href="scss/home.css" rel="stylesheet" type="text/css">
+        <link href="scss/main.css" rel="stylesheet" type="text/css">
     </head>
 
     <body>
@@ -21,26 +22,28 @@
         <button type="submit" class="sortAsc">asc</button>
         <button type="submit" class="sortDsc">dsc</button>
         
-        
-        <div id="comp"></div>
-        <div id="pop"></div>
+        <div id="mood"></div>
+        <div id="trending" class="parent-component"></div>
+        <div id="popular" class="parent-component"></div>
         </div>
         
+        <div class="side-panel">
+            <div class="sug-widget">
+            <h3  class="heading heading-small">
+                Anime Suggestions
+            </h3>
+            <button class="btn-default btn-suggest">
+                Suggest Anime
+            </button>
+
+            <div class="suggestion-box">
+                
+            </div>
+        </div>
+        </div>
         <!-- JS -->
 
-<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyClLYmeIjM3_bOqGANZCLXTCSc8XOeawE4",
-    authDomain: "animehub-bleach.firebaseapp.com",
-    databaseURL: "https://animehub-bleach.firebaseio.com",
-    projectId: "animehub-bleach",
-    storageBucket: "",
-    messagingSenderId: "670785853547"
-  };
-  firebase.initializeApp(config);
-</script>
+        
         <script type="module" src="js/service.js"></script>
         <script type="module" src="js/home.js"></script>
     </body>

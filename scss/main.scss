@@ -1,0 +1,37 @@
+// css for common elements
+
+/* components */
+.side-panel {
+    width:20%;
+    float: right;
+    background-color: #f0eaea;
+    height: 100%;
+}
+
+/** heading*/
+
+.heading {
+}
+
+/* Buttons */
+
+.btn {
+    border:1px solid;
+    border-radius:5px;
+}
+
+.btn-default {
+    @extend .btn;
+    background-color:white;
+    display: block;
+}
+.btn-suggest {
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.btn-default:hover {
+    background-color: cornflowerblue;
+    border: 1px solid white;
+    color: white;
+}

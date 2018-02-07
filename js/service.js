@@ -41,29 +41,49 @@ function _(idName) { //shorthand for getting elements
 //Anime mood suggestion
 
 
-navigator.geolocation.getCurrentPosition(getWeather,getPositionError);
+navigator.geolocation.getCurrentPosition(getCoords,getPositionError);
 
-
-function getWeather(position) {
-    var mood = [{"haze":"horror"}];
-    
-
-    anime.get("GET","https://api.openweathermap.org/data/2.5/weather?lat="+position.coords.latitude+"&lon="+position.coords.longitude+"&APPID=738818b9876673c608786a5055be1371").then(function success (forecast){
-        
-        forecast.weather.map(function(weatherType){
-                var weather = weatherType.main.toLowerCase();
-                
-                mood.map(function(moodCategory){                                      
-                //    if( moodCategory[weather] = getCategory()) {;
-                //         console.log("watch devil man cry baby");
-                        
-                // }
-                });          
-        })          
-
-    },function error(err){});
-
+function getCoords(position) {
+    return position;
 }
+
+var userCoords = getCoords();
+console.log(userCoords);
+
+// function getWeather(position,callback){
+//    console.log(position);
+   
+//     var mood = {"haze":"horror","dark":"demon","fog":"adventure"};
+//     var weather;
+
+
+//     _(".btn-suggest").addEventListener("click",function(){
+    
+//     anime.get("GET","https://api.openweathermap.org/data/2.5/weather?lat="+position.coords.latitude+"&lon="+position.coords.longitude+"&APPID=738818b9876673c608786a5055be1371").then(function success (forecast){
+        
+//         forecast.weather.map(function(weatherType){
+//             weather = weatherType.main.toLowerCase();
+            
+//         })  
+        
+//             _(".suggestion-box").innerHTML = mood[weather];
+
+//         })
+        
+        
+//     },function error(err){});
+    
+//     callback();
+// }
+
+// getWeather(userCoords,computeAnime);
+
+function computeAnime(){
+   console.log("s");
+   
+    
+}
+
 
 function getPositionError(){
     return;
