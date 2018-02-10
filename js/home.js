@@ -276,6 +276,6 @@ function getCategory(val, containerClass) {
 
 
 
-callAnimeType("https://kitsu.io/api/edge/trending/anime?limit=5", "#trending", "trending");
+// callAnimeType("https://kitsu.io/api/edge/trending/anime?limit=5", "#trending", "trending");
 
-callAnimeType("https://kitsu.io/api/edge/anime?sort=popularityRank","#popular","popular");
+// callAnimeType("https://kitsu.io/api/edge/anime?sort=popularityRank","#popular","popular");
