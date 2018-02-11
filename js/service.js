@@ -75,8 +75,8 @@ function getWeather(position,callback){
         
     anime.get("GET","https://api.openweathermap.org/data/2.5/weather?lat="+position.latitude+"&lon="+position.longitude+"&APPID=738818b9876673c608786a5055be1371").then(function success (forecast){
         forecast.weather.map(function(weatherType){
-            weather = weatherType.main.toLowerCase();
-    
+            weather = weatherType.main.toLowerCase();   
+                
            
              callback(mood[weather]);
             hasWeather = true;    
@@ -136,10 +136,14 @@ function computeAnime(val){ //callback for fetching anime based on category
         var numberOfLists = document.querySelectorAll(".sug-li");
         for(var i=0;i<numberOfLists.length;i++) {
             numberOfLists[i].addEventListener("click",function(e){
-
-                 document.body.innerHTML     =  `${modal.createModal(modalObj[e.target.id])}`;
+console.log(e.target.id)
+                  var modal = new Modal(modalObj[e.target.id]);
+                    _("#modalDom >.modal-interior").innerHTML = modal.createModal();
+                    modal.mutateModal();
             });
         }
+
+       
 
     },function error(){})
 
@@ -152,22 +156,34 @@ function getPositionError(){
 }
 
 
-var modal = (function(){    
 
-return {
-    createModal : function(modalData) {
-       
+//render modal. For close call seperate function is created.
 
-         return `<div class="modal">
-        asd
+class Modal {
+    constructor(q) {
+        this.modalData =q;
+        console.log(this.modalData);
+    }
+
+    createModal(){
+
+        
+
+        var modalEl =   `<div class="modal">
+            <div class="closeModal">X</div>
             <div class="modal-area">
-            <div class="modal-poster">
+
+            <div class="modal-image">
             <img src="
-            ${modalData.attributes.posterImage.medium}
-            "></div>
+            ${this.modalData.attributes.posterImage.small}" class="grow"></div>
             <div class="modal-content">
-            asdsdasdasd
+            
             <div class="stats">
+            <ul>
+            <li> Popularity <span> ${this.modalData.attributes.popularityRank} </span></li>
+            <li> Rating <span>${this.modalData.attributes.averageRating} </span></li>
+            <li> Status <span>${this.modalData.attributes.status}</span></li>
+            </ul>
             </div>
             <div class="synopsis">
 
@@ -176,9 +192,30 @@ return {
             </div>
         </div>`
 
+
+        return modalEl;  
+
     }
+
+    mutateModal () {
+        _(".closeModal").setAttribute("onclick",closeModal());
+
+
+    
+    }
+
+}        
+        
+
+function closeModal () {
+    _(".closeModal").addEventListener("click",function(){
+        _(".modal").style.display = "none";
+    });                               
+
+
 }
-})();
+
+
 
 
 

@@ -218,26 +218,27 @@ function getCategory(val, containerClass) {
         slug = val;
     }
   
-    service.anime.get("GET", "https://kitsu.io/api/edge/anime?fields[categories]=title&filter[slug]=" + slug + "&include=categories").then(function success(res) {
+  return service.anime.get("GET", "https://kitsu.io/api/edge/anime?fields[categories]=title&filter[slug]=" + slug + "&include=categories").then(function success(res) {
         
 
-        
-        service._("."+containerClass + ">#" + slug + ">.animeImg").addEventListener("mouseenter", function (e) {
+        return res;
+        // service._("."+containerClass + ">#" + slug + ">.animeImg").addEventListener("mouseenter", function (e) {
 
             
-            service._("."+containerClass + "> #" + slug + " .categories").innerHTML = '';
+        //     service._("."+containerClass + "> #" + slug + " .categories").innerHTML = '';
             
-            for (var x = 0; x < 3; x++) {
-                service._("."+containerClass + "> #" + slug + " .categories").innerHTML += " <span class='category-inline'><div class='categoryType'> " +res.included[x].attributes.title
-                + " " + " </div></span>";
-            }
+        //     for (var x = 0; x < 3; x++) {
+        //         service._("."+containerClass + "> #" + slug + " .categories").innerHTML += " <span class='category-inline'><div class='categoryType'> " +res.included[x].attributes.title
+        //         + " " + " </div></span>";
+        //     }
             
-        });
+        // });
         
-        service._("."+containerClass + "> #" + slug + ">.animeImg").addEventListener("mouseleave", function (e) {
-            service._("."+containerClass + "> #" + slug + " .categories").innerHTML = '';
-        });
+        // service._("."+containerClass + "> #" + slug + ">.animeImg").addEventListener("mouseleave", function (e) {
+        //     service._("."+containerClass + "> #" + slug + " .categories").innerHTML = '';
+        // });
     }, function err() {});
+
 
 
 
