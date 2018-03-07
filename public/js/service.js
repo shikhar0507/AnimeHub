@@ -19,7 +19,6 @@ var anime = (function () { //XHR
                             reject(xhr.status);
                         }
                     } else {
-                        console.log("process continuing"); //if readyState != 4
                     }
                 };
 
