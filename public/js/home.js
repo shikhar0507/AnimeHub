@@ -1,6 +1,9 @@
 import * as service from './service.js';
 
 
+
+
+
 let query;
 var beautifyQuery = function (rawStr) {
     rawStr = rawStr.toLowerCase();
@@ -138,8 +141,10 @@ sortOrder = 'trending';
                 <div class='animeInfo'>
                 <div class='animeTitle'>
                 ${val.attributes.canonicalTitle}
+                <button id="${val.attributes.slug}" class="set-bookmark">star</button>
                 </div>
                 <div class='animeSynopsis'>
+                    
                 </div>
                 </div>
                 </div>`
@@ -169,19 +174,7 @@ service._(".sortTrendAsc").addEventListener("click", function (e) {
 
 
     
-    // service._(".sortPopularAsc").addEventListener("click", function (e) {
-        
-    //     sortOrder = 'asc';
-    //     callAnimeType("https://kitsu.io/api/edge/anime?sort=popularityRank","#popular","popular")
-
-    //         service._("#popular").innerHTML = trendingAnime.render('popular');
-    
-    //     }); 
-    //     service._(".sortPopularDsc").addEventListener("click", function (e) {
-    //         sortOrder = 'dsc';
-
-    //         service._("#popular").innerHTML = trendingAnime.render('popular');
-    //     });
+  
     
 
 
@@ -216,6 +209,8 @@ function component(xyz,containerClass) {
     <div class='animeInfo'>
     <div class='animeTitle'>
     ${xyz[0].attributes.canonicalTitle}
+    <button id="${xyz[0].attributes.slug}" class="set-bookmark">star</button>
+
     </div>
     <div class='animeSynopsis'>
     </div>
@@ -227,7 +222,6 @@ function component(xyz,containerClass) {
 
 function getCategory(val, containerClass) {
 
-    console.log(containerClass)
 
 
     let slug;
@@ -240,8 +234,9 @@ function getCategory(val, containerClass) {
     service.anime.get("GET", "https://kitsu.io/api/edge/anime?fields[categories]=title&filter[slug]=" + slug + "&include=categories").then(function success(res) {
         
         service._("."+containerClass + ">#" + slug + ">.animeImg").addEventListener("mouseenter", function (e) {
-            console.log(res)
             
+
+           
             
             service._("."+containerClass + "> #" + slug + " .categories").innerHTML = '';
             
@@ -299,3 +294,5 @@ function getCategory(val, containerClass) {
 callAnimeType("https://kitsu.io/api/edge/trending/anime?limit=5", "#trending", "trending");
 
 callAnimeType("https://kitsu.io/api/edge/anime?sort=popularityRank","#popular","popular");
+
+

@@ -94,4 +94,52 @@
     padding-right: 20px;
   }
 
-/*# sourceMappingURL=main.css.map */
+
+  #popular {
+    padding-top:40px;
+  }
+
+
+.search-cont {
+  
+  margin-left: 0px;
+  position: absolute;
+  left: 30%;
+  top: 5%;
+  padding-bottom: 20px;
+}
+
+#trending {
+  padding-top: 30px;
+}
+/* .sortTrendDsc {
+  padd
+} */
+.sortTrendAsc , .sortTrendDsc, .getText {
+  border-radius: 5px;
+  width: 120px;
+  /* padding-left: 10px; */
+  color: white;
+  background-color: cornflowerblue;
+  border-color: cornflowerblue;
+  height: 30px;
+}
+.search {
+  border: 1px solid cornflowerblue;
+  border-radius: 5px;
+  height: 30px;
+}
+
+.sortTrendAsc:hover {
+  color: cornflowerblue;
+  background-color: white;
+}
+.sortTrendDsc:hover {
+  color: cornflowerblue;
+  background-color: white;
+}
+
+.sort {
+  padding-top: 60px;
+  text-align: center;
+}

@@ -6,17 +6,22 @@
     <body>
         
         <div class="container">
+            <div class="search-cont">
         <input type="text" class="queryText search">
         <button type="submit" class="getText">send</button>
-        <button type="submit" class="sortTrendAsc">asc</button>
-        <button type="submit" class="sortTrendDsc">dsc</button>
-        
+       
+    </div>
         
      
         <div id="mood"></div>
+        <div class="sort">
+        <h3>Sort Trending Anime</h3>
+        <button type="submit" class="sortTrendAsc">ascending</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="submit" class="sortTrendDsc">dscending</button>
+    </div>
         <div id="trending" class="parent-component"></div>
-       
         
+        <h2 style="text-align:center"> Popular Anime</h2>
         <div id="popular" class="parent-component"></div>
     </div>
     
@@ -37,8 +42,15 @@
     </div>
     <!-- JS -->
     
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></script>
+
+    <script src="js/fire.js"></script>
     
     <script type="module" src="js/home.js"></script>
     <script type="module" src="js/service.js"></script>
+    <script src="js/bookmark.js"></script>
+
     </body>
     </html>
