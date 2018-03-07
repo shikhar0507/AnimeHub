@@ -235,6 +235,7 @@ function getCategory(val, containerClass) {
     } else if (typeof val === 'string') {
         slug = val;
     }
+<<<<<<< HEAD:public/js/home.js
     
     service.anime.get("GET", "https://kitsu.io/api/edge/anime?fields[categories]=title&filter[slug]=" + slug + "&include=categories").then(function success(res) {
         
@@ -242,22 +243,32 @@ function getCategory(val, containerClass) {
         service._("."+containerClass + ">#" + slug + ">.animeImg").addEventListener("mouseenter", function (e) {
             console.log(res)
             
-            
-            service._("."+containerClass + "> #" + slug + " .categories").innerHTML = '';
-            
-            for (var x = 0; x < 3; x++) {
-                service._("."+containerClass + "> #" + slug + " .categories").innerHTML += " <span class='category-inline'><div class='categoryType'> " +res.included[x].attributes.title
-                + " " + " </div></span>";
-            }
-            
-        });
+=======
+  
+  return service.anime.get("GET", "https://kitsu.io/api/edge/anime?fields[categories]=title&filter[slug]=" + slug + "&include=categories").then(function success(res) {
         
-        service._("."+containerClass + "> #" + slug + ">.animeImg").addEventListener("mouseleave", function (e) {
-            service._("."+containerClass + "> #" + slug + " .categories").innerHTML = '';
-        });
+
+        return res;
+        // service._("."+containerClass + ">#" + slug + ">.animeImg").addEventListener("mouseenter", function (e) {
+
+>>>>>>> c5ba187156329ea28a5da0e4c089f6846bec0719:js/home.js
+            
+        //     service._("."+containerClass + "> #" + slug + " .categories").innerHTML = '';
+            
+        //     for (var x = 0; x < 3; x++) {
+        //         service._("."+containerClass + "> #" + slug + " .categories").innerHTML += " <span class='category-inline'><div class='categoryType'> " +res.included[x].attributes.title
+        //         + " " + " </div></span>";
+        //     }
+            
+        // });
+        
+        // service._("."+containerClass + "> #" + slug + ">.animeImg").addEventListener("mouseleave", function (e) {
+        //     service._("."+containerClass + "> #" + slug + " .categories").innerHTML = '';
+        // });
     }, function err() {});
     
     
+
 
 
 }
@@ -295,6 +306,6 @@ function getCategory(val, containerClass) {
 
 
 
-callAnimeType("https://kitsu.io/api/edge/trending/anime?limit=5", "#trending", "trending");
+// callAnimeType("https://kitsu.io/api/edge/trending/anime?limit=5", "#trending", "trending");
 
-callAnimeType("https://kitsu.io/api/edge/anime?sort=popularityRank","#popular","popular");
+// callAnimeType("https://kitsu.io/api/edge/anime?sort=popularityRank","#popular","popular");

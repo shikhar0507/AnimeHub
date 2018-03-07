@@ -1,4 +1,18 @@
+
+/** variable **/
+
+/** Prefixes**/
+.shrink { transition: all .2s ease-in-out; }
+.shrink:hover { transform: scale(0.); }
+
 /* components */
+.container {
+   display: table;
+  width: 80%;
+  height: 100%;
+}
+
+
 .side-panel {
   width: 20%;
   float: right;
@@ -6,6 +20,7 @@
   height: 100%; }
 
 /** heading*/
+
 /* Buttons */
 .btn, .btn-default {
   border: 1px solid;
@@ -23,5 +38,60 @@
   background-color: cornflowerblue;
   border: 1px solid white;
   color: white; }
+
+/** modal **/
+
+
+.modal-interior {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+  .modal {
+  
+    position: fixed;
+    display: block;
+  background-color: white;
+  top: 20%;
+  right: 0;
+  border: 1px solid black;
+  border-radius: 10px; 
+  bottom: 0;
+  left: -10%;
+  z-index: 999;
+  opacity: 1;
+  width: 50%;
+  pointer-events: none;
+  -webkit-transition: all 0.3s;
+  margin: 0 auto;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  }
+
+  .closeModal {
+    text-align: right;
+    font-size: 20px;
+    color: black;
+  }
+
+  .modal-content {
+    padding-left: 20px;
+  }
+
+  .modal-image {
+    width:30%;
+    float: left;
+    padding: 0px 30px 30px 30px;
+  
+  }
+  .modal-image > img {
+    width: 100%;
+  }
+
+  .stats > ul  > li {
+    list-style: none;
+    display: inline-block;
+    padding-right: 20px;
+  }
 
 /*# sourceMappingURL=main.css.map */
