@@ -8,7 +8,8 @@
 /* components */
 .container {
    display: table;
-  width: 80%;
+  width: 90%;
+  padding-left: 5%;
   height: 100%;
 }
 
@@ -104,7 +105,8 @@
   
   margin-left: 0px;
   position: absolute;
-  left: 30%;
+  left: 39%;
+  width:40%;
   top: 5%;
   padding-bottom: 20px;
 }
@@ -119,6 +121,7 @@
   border-radius: 5px;
   width: 120px;
   /* padding-left: 10px; */
+  display: inline-block;
   color: white;
   background-color: cornflowerblue;
   border-color: cornflowerblue;
@@ -128,6 +131,7 @@
   border: 1px solid cornflowerblue;
   border-radius: 5px;
   height: 30px;
+  width: 50%;
 }
 
 .sortTrendAsc:hover {

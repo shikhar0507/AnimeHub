@@ -8,6 +8,7 @@ setTimeout(function(){
 
         stars[i].addEventListener("click",function(e){
             
+            console.log("Add")
             if(e.target.classList.contains("bookmarked")) {
                 removeBookmark(e.target.id);
                 e.target.classList.remove("bookmarked");
@@ -50,12 +51,13 @@ db.collection("users").get().then(function(document) {
         setTimeout(function(){
 
                 bookmarks[doc.data().title] = doc.id;
-        },100)
+            },100)
+        })
     })
-})
 }
 
 getBookmark();
+
 
 
 function enableBookmark(data){
@@ -70,7 +72,8 @@ function enableBookmark(data){
 }
 
 
-console.log(bookmarks)
+
+// console.log(bookmarks)
 function removeBookmark(name) {
  db.collection("users").doc(bookmarks[name]).delete().then(function(){
  }); 

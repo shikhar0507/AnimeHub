@@ -9,7 +9,7 @@ body {
   text-align: right; }
 
 .container {
-  width: 80%;
+  width: 100%;
   float: left; }
 
 .anime-cont {
@@ -73,8 +73,26 @@ body {
   font-weight: 100; }
 
 .bookmarked {
-  background-color: yellow;
-  color: white;
+  color: yellow;
+  
+  
+}
+
+.star {
+
+font-size: 24px;
+cursor: pointer;
+content: "\2605";
+  transition:all 0.4s;
+
+
+}
+
+.animeTitle {
+  /* display: inline-block; */
 }
 
 /*# sourceMappingURL=home.css.map */
+.anime-name {
+  font-size: 14px;
+}

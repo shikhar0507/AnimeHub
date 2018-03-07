@@ -24,10 +24,10 @@ document.querySelector(".getText").addEventListener("click", function () {
 
     beautifyQuery(rawQuery);
 
-    service.anime.get("GET", url + "?filter[slug]=" + query, true).then(function success(data) {
+    service.anime.get("GET", service.url + "?filter[slug]=" + query, true).then(function success(data) {
 
 
-        // console.log(data.data[0].attributes);
+        console.log(data.data[0].attributes);
 
     }, function error(err) {
         // console.log(err);
@@ -43,7 +43,7 @@ var isSort = false;
 let sortOrder;
 var callAnimeType = function (animeDataType, whereToInsert) {
     
-
+    
     
     service.anime.get("GET", animeDataType).then(function success(anime) {
    
@@ -55,7 +55,7 @@ sortOrder = 'trending';
         class renderTrendingAnime {
             constructor() {
                 
-                for(var i=0;i<5;i++) {
+                for(var i=0;i<10;i++) {
                 limitData.push(anime.data[i]);
                 }
                 
@@ -147,12 +147,11 @@ sortOrder = 'trending';
                 </div>
                 <div class='animeInfo'>
                 <div class='animeTitle'>
-                ${val.attributes.canonicalTitle}
-                <button id="${val.attributes.slug}" class="set-bookmark">star</button>
+                <span class='anime-name'>
+                ${val.attributes.canonicalTitle}</span>
+                <span id="${val.attributes.slug}" class="set-bookmark star">&#9733</span>
                 </div>
-                <div class='animeSynopsis'>
-                    
-                </div>
+                
                 </div>
                 </div>`
 
@@ -181,7 +180,6 @@ function sortedTrendingAnimeCall(animeTitle,containerClass) {
     }, function err() {});
     
 setTimeout(function() {
-    
     document.querySelector(".trending").innerHTML += trendingAnime.component(xyz[0]);
 },1300)
 
@@ -194,14 +192,12 @@ setTimeout(function() {
 function getCategory(val, containerClass) {
 
    
-        console.log(val)
         let slug;
         if (typeof val === 'object') {
             slug = val.attributes.slug;
         } else if (typeof val === 'string') {
             slug = val;
         }
-        console.log(slug)
         service.anime.get("GET", "https://kitsu.io/api/edge/anime?fields[categories]=title&filter[slug]=" + slug + "&include=categories").then(function success(res) {
             // console.log(res)
             service._(".trending >#" + slug + ">.animeImg").addEventListener("mouseenter", function (e) {
@@ -263,25 +259,30 @@ function getCategory(val, containerClass) {
 
 
 getBookmark();
-callAnimeType("https://kitsu.io/api/edge/trending/anime?limit=5", "#trending", "trending");
+callAnimeType("https://kitsu.io/api/edge/trending/anime", "#trending", "trending");
 
-// callAnimeType("https://kitsu.io/api/edge/anime?sort=popularityRank","#popular","popular");
 
 
 service._(".sortTrendAsc").addEventListener("click", function (e) {
-
-    sortOrder = 'asc';
-    callAnimeType("https://kitsu.io/api/edge/trending/anime?limit=5","#trending",'trending')
-    service._("#trending").innerHTML = trendingAnime.render();
     
-    getBookmark();
-    }); 
-
-    service._(".sortTrendDsc").addEventListener("click", function (e) {
-        getBookmark();
+    sortOrder = 'asc';
+    
     setTimeout(function(){
-       
+        
+        service._("#trending").innerHTML = trendingAnime.render();
+        
+            
+        enableBookmark();
+    },1000)
+}); 
+
+service._(".sortTrendDsc").addEventListener("click", function (e) {
+    
+    setTimeout(function(){
+        
         sortOrder = 'dsc';
         service._("#trending").innerHTML = trendingAnime.render();
+        getBookmark();
     },1000)
-    });
+});
+
