@@ -64,35 +64,12 @@ function getCoords(position) {
 // function getWeather(position,callback){
  
    
-<<<<<<< HEAD:public/js/service.js
-//     var mood = {"haze":"horror","dark":"demon","fog":"adventure","mist":"fantasy"};
-//     var weather;
-=======
     var mood = {"haze":"horror","dark":"demon","fog":"adventure","mist":["fantasy","adventure"],"smoke":["thriller,science-fiction"]};
     var weather;
     var hasWeather = false;
->>>>>>> c5ba187156329ea28a5da0e4c089f6846bec0719:js/service.js
 
     
 
-<<<<<<< HEAD:public/js/service.js
-//     _(".btn-suggest").addEventListener("click",function(){
-    
-//     anime.get("GET","https://api.openweathermap.org/data/2.5/weather?lat="+position.latitude+"&lon="+position.longitude+"&APPID=738818b9876673c608786a5055be1371").then(function success (forecast){
-        
-//         forecast.weather.map(function(weatherType){
-//             weather = weatherType.main.toLowerCase();
-            
-//         })  
-        
-//             _(".suggestion-box").innerHTML = mood[weather];
-//              callback(mood[weather]);
-            
-//         })
-        
-        
-//     },function error(err){});
-=======
     _(".btn-suggest").addEventListener("click",function(){
         if(!hasWeather) {
         
@@ -118,7 +95,6 @@ setInterval(function(){   // reseting for api call
 
 });
     
->>>>>>> c5ba187156329ea28a5da0e4c089f6846bec0719:js/service.js
     
 // }
 
