@@ -30,3 +30,35 @@
 [info] i  hosting: Serving hosting files from: public
 [info] +  hosting: Local server: http://localhost:5000
 
+[debug] [2018-03-07T04:49:59.916Z] ----------------------------------------------------------------------
+[debug] [2018-03-07T04:49:59.916Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\xanadu\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-03-07T04:49:59.916Z] CLI Version:   3.17.4
+[debug] [2018-03-07T04:49:59.916Z] Platform:      win32
+[debug] [2018-03-07T04:49:59.916Z] Node Version:  v8.9.4
+[debug] [2018-03-07T04:49:59.916Z] Time:          Wed Mar 07 2018 10:19:59 GMT+0530 (India Standard Time)
+[debug] [2018-03-07T04:49:59.916Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-03-07T04:49:59.931Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-03-07T04:49:59.931Z] > authorizing via signed-in user
+[debug] [2018-03-07T04:49:59.931Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/phoneauth-5796  
+  
+ Wed Mar 07 2018 10:19:59 GMT+0530 (India Standard Time)
+[debug] [2018-03-07T04:50:01.392Z] <<< HTTP RESPONSE 200
+[debug] [2018-03-07T04:50:01.393Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/phoneauth-5796/tokens  
+  
+ Wed Mar 07 2018 10:20:01 GMT+0530 (India Standard Time)
+[debug] [2018-03-07T04:50:02.659Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\xanadu\animeHub'...
+[info] 
+[debug] [2018-03-07T04:50:02.675Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/phoneauth-5796  
+  
+ Wed Mar 07 2018 10:20:02 GMT+0530 (India Standard Time)
+[debug] [2018-03-07T04:50:07.520Z] <<< HTTP RESPONSE 200
+[debug] [2018-03-07T04:50:07.520Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/994226004036/clients/_:getWebAppConfig  
+  
+ Wed Mar 07 2018 10:20:07 GMT+0530 (India Standard Time)
+[debug] [2018-03-07T04:50:08.286Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000
+
