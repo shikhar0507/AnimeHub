@@ -61,33 +61,33 @@ function getCoords(position) {
 
 
 
-function getWeather(position,callback){
+// function getWeather(position,callback){
  
    
-    var mood = {"haze":"horror","dark":"demon","fog":"adventure","mist":"fantasy"};
-    var weather;
+//     var mood = {"haze":"horror","dark":"demon","fog":"adventure","mist":"fantasy"};
+//     var weather;
 
 
-    _(".btn-suggest").addEventListener("click",function(){
+//     _(".btn-suggest").addEventListener("click",function(){
     
-    anime.get("GET","https://api.openweathermap.org/data/2.5/weather?lat="+position.latitude+"&lon="+position.longitude+"&APPID=738818b9876673c608786a5055be1371").then(function success (forecast){
+//     anime.get("GET","https://api.openweathermap.org/data/2.5/weather?lat="+position.latitude+"&lon="+position.longitude+"&APPID=738818b9876673c608786a5055be1371").then(function success (forecast){
         
-        forecast.weather.map(function(weatherType){
-            weather = weatherType.main.toLowerCase();
+//         forecast.weather.map(function(weatherType){
+//             weather = weatherType.main.toLowerCase();
             
-        })  
+//         })  
         
-            _(".suggestion-box").innerHTML = mood[weather];
-             callback(mood[weather]);
+//             _(".suggestion-box").innerHTML = mood[weather];
+//              callback(mood[weather]);
             
-        })
+//         })
         
         
-    },function error(err){});
+//     },function error(err){});
     
-}
+// }
 
-getWeather(userCoords,computeAnime);
+// getWeather(userCoords,computeAnime);
 
 function computeAnime(val){ //callback for fetching anime based on category
 
