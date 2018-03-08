@@ -47,8 +47,11 @@ function setBookmark(title){
 function getBookmark(){
 db.collection("users").get().then(function(document) {
     document.forEach(function(doc) {
-        enableBookmark(doc.data())
+        
         setTimeout(function(){
+            enableBookmark(doc.data())
+        },1200);
+            setTimeout(function(){
 
                 bookmarks[doc.data().title] = doc.id;
             },100)
@@ -61,15 +64,16 @@ getBookmark();
 
 
 function enableBookmark(data){
-    
-    var stars = document.querySelectorAll(".set-bookmark");
-    
-    for(var i =0;i<stars.length;i++) {
-        if(stars[i].id === data.title) {
-            stars[i].classList.add("bookmarked");
+
+    console.log(data)
+       var stars = document.querySelectorAll(".set-bookmark");
+       console.log(stars)
+       for(var i =0;i<stars.length;i++) {
+           if(stars[i].id === data.title) {
+               stars[i].classList.add("bookmarked");
+            }
         }
     }
-}
 
 
 
